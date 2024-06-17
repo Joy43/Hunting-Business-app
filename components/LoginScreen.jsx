@@ -2,7 +2,7 @@ import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { Colors } from "@/constants/Colors";
 import React from "react";
-import { useNavigation } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 // import * as WebBrowser from "expo-web-browser";
 
 // import { useOAuth } from "@clerk/clerk-expo";
@@ -48,7 +48,7 @@ export default function LoginScreen() {
         }}
       >
         <Image
-          source={require("./../assets/images/login.png")}
+          source={require("./../assets/images/into.gif")}
           style={{
             width: 220,
             height: 450,
@@ -84,19 +84,21 @@ export default function LoginScreen() {
           Find out the best amazing business and post latest business at moment
           for better way
         </Text>
-        <TouchableOpacity style={styles.button} onPress={handlePress}>
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 30,
-              color: "white",
-              fontFamily: "outfit",
-            }}
-          >
-            {" "}
-            Let's Go Start
-          </Text>
-        </TouchableOpacity>
+        <Link href={"/tabs"}>
+          <TouchableOpacity style={styles.button} onPress={handlePress}>
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 30,
+                color: "white",
+                fontFamily: "outfit",
+              }}
+            >
+              {" "}
+              Let's Go Start
+            </Text>
+          </TouchableOpacity>
+        </Link>
       </View>
     </View>
   );
