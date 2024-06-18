@@ -1,12 +1,13 @@
 import { View, Text, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
-import { collection, doc, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
 
-import { db } from "../../configs/FirebaseConfig";
 import CategoryItem from "./CategoryItem";
+import { db } from "../../configs/FirebaseConfig";
 
 export default function Categorys() {
-  const [categoryList, setcategoryList] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
+
   useEffect(() => {
     GetCategoryList();
   }, []);
@@ -14,11 +15,10 @@ export default function Categorys() {
   const GetCategoryList = async () => {
     const q = query(collection(db, "Category"));
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      console.log(doc.data());
-      setcategoryList((prev) => [...prev, doc.data()]);
-    });
+    const categories = querySnapshot.docs.map((doc) => doc.data());
+    setCategoryList(categories);
   };
+
   return (
     <View>
       <View
@@ -32,7 +32,6 @@ export default function Categorys() {
       >
         <Text
           style={{
-            marginTop: 10,
             fontSize: 20,
             fontFamily: "outfit-bold",
             marginTop: 10,
@@ -40,15 +39,25 @@ export default function Categorys() {
         >
           Category
         </Text>
-        <Text>View All</Text>
+        <Text style={{ fontFamily: "outfit-bold", color: "blue" }}>
+          View All
+        </Text>
       </View>
-      <FlatList>
-        data={categoryList}
-        renderItem=
-        {({ item, index }) => (
-          <CategoryItem category={item} key={index}></CategoryItem>
-        )}
-      </FlatList>
+
+      {/* ----------category data load------------- */}
+
+      <View style={{ display: "flex", gap: 10 }}>
+        <FlatList
+          data={categoryList}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          style={{ marginLeft: 20, gap: 10 }}
+          renderItem={({ item, index }) => (
+            <CategoryItem category={item} key={index} />
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      </View>
     </View>
   );
 }
