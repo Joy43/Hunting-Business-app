@@ -1,13 +1,8 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 
-export default function CategoryItem({ category }) {
+export default function CategoryItem({ category, onCategoryPress }) {
   console.log(category);
-
-  const onCategoryPress = (category) => {
-    // Handle category press
-    console.log("Category pressed:", category);
-  };
 
   return (
     <TouchableOpacity onPress={() => onCategoryPress(category)}>

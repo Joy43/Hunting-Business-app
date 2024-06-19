@@ -1,22 +1,33 @@
 import { View, Text, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, query } from "firebase/firestore";
-
 import CategoryItem from "./CategoryItem";
 import { db } from "../../configs/FirebaseConfig";
+import { useRouter } from "expo-router";
 
 export default function Categorys() {
   const [categoryList, setCategoryList] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     GetCategoryList();
   }, []);
 
   const GetCategoryList = async () => {
-    const q = query(collection(db, "Category"));
-    const querySnapshot = await getDocs(q);
-    const categories = querySnapshot.docs.map((doc) => doc.data());
-    setCategoryList(categories);
+    try {
+      const q = query(collection(db, "Category"));
+      const querySnapshot = await getDocs(q);
+      const categories = querySnapshot.docs.map((doc) => {
+        return { id: doc.id, ...doc.data() };
+      });
+      setCategoryList(categories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const handleCategoryPress = (category) => {
+    router.push(`/businesslist/${category.name}`);
   };
 
   return (
@@ -24,7 +35,6 @@ export default function Categorys() {
       <View
         style={{
           padding: 20,
-          display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
@@ -44,18 +54,18 @@ export default function Categorys() {
         </Text>
       </View>
 
-      {/* ----------category data load------------- */}
-
-      <View style={{ display: "flex", gap: 10 }}>
+      <View style={{ padding: 10 }}>
         <FlatList
           data={categoryList}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          style={{ marginLeft: 20, gap: 10 }}
-          renderItem={({ item, index }) => (
-            <CategoryItem category={item} key={index} />
+          renderItem={({ item }) => (
+            <CategoryItem
+              category={item}
+              onCategoryPress={handleCategoryPress}
+            />
           )}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item) => item.id}
         />
       </View>
     </View>
