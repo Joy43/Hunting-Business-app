@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@clerk/clerk-expo": "^1.2.1",
+    "@dotlottie/react-player": "^1.6.19",
     "@expo/vector-icons": "^14.0.0",
     "@react-navigation/native": "^6.0.2",
     "babel-preset-expo": "^11.0.10",
@@ -32,6 +33,8 @@
     "expo-video": "^1.1.10",
     "expo-web-browser": "~13.0.3",
     "firebase": "^10.12.2",
+    "lottie-ios": "^3.1.8",
+    "lottie-react-native": "^6.7.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.2",
