@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily: 'outfit-bold',
         marginVertical: 10,
-        color: Colors.Primary,
+        color: Colors.PRIMARY,
     },
     loadingIndicator: {
         marginTop: '20%',

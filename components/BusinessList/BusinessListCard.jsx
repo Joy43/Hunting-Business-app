@@ -5,30 +5,92 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Linking,
 } from "react-native";
 import React from "react";
 import { router } from "expo-router";
-// onPress={() => router.push(`/businessdetail/${business.id}`)}
+// import Reviews from "./Reviews";
+
 export default function BusinessListCard({ business }) {
+  const handlePress = (url) => {
+    Linking.openURL(url);
+  };
+
+  const handleAddressPress = (address) => {
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      address
+    )}`;
+    Linking.openURL(url);
+  };
+  const handleContactPress = (contact) => {
+    const url = `tel:${contact}`;
+    Linking.openURL(url);
+  };
+
   return (
     <ScrollView>
       <View style={styles.card}>
+        {/* --------- */}
         <View style={styles.container}>
           {/* ----------IMAGE------------ */}
           <Image source={{ uri: business.imageUrl }} style={styles.image} />
-          {/* ----------- CONTENT--------- */}
+          {/* ----------- Name--------- */}
           <View style={styles.content}>
             <Text style={styles.name}>{business.name}</Text>
-            <Text style={styles.address}>{business.address}</Text>
-            <Text style={styles.about}>{business.about}</Text>
+            {/*------------ about--------- */}
+            <Text style={styles.about} numberOfLines={2} ellipsizeMode="tail">
+              {business.about}
+            </Text>
+
+            {/* ----------- Contact Info ----------- */}
+            <TouchableOpacity
+              style={styles.infoContainer}
+              onPress={() => handleContactPress(business.contact)}
+            >
+              <Image
+                source={require("../../assets/images/call.png")}
+                style={styles.infoIcon}
+              />
+              <Text style={styles.infoText}>Contact: {business.contact}</Text>
+            </TouchableOpacity>
+
+            {/* ----------- Website Link ----------- */}
+            <TouchableOpacity
+              style={styles.infoContainer}
+              onPress={() => handlePress(business.website)}
+            >
+              <Image
+                source={require("../../assets/images/web.png")}
+                style={styles.infoIcon}
+              />
+              <Text style={styles.infoText}>Website</Text>
+            </TouchableOpacity>
+
+            {/* ----------- Address Link ----------- */}
+            <TouchableOpacity
+              style={styles.infoContainer}
+              onPress={() => handleAddressPress(business.adress)}
+            >
+              <Image
+                source={require("../../assets/images/pin.png")}
+                style={styles.infoIcon}
+              />
+              <Text style={styles.infoText}>{business.adress}</Text>
+            </TouchableOpacity>
+            {/* --------------rating-------- */}
             <View style={styles.ratingContainer}>
               <Image
                 source={require("../../assets/images/star.png")}
                 style={styles.starImage}
               />
-              <Text style={styles.ratingText}>{business.rating || "4.4"}</Text>
+              <Text style={styles.ratingText}>{business.rating || "4.3"}</Text>
             </View>
           </View>
+        </View>
+
+        <View>
+          {/* -------------- reviews--------- */}
+          {/* <Reviews business={business}></Reviews> */}
         </View>
       </View>
     </ScrollView>
@@ -66,10 +128,19 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     color: "#333",
   },
-  address: {
+  infoContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 5,
+  },
+  infoIcon: {
+    width: 16,
+    height: 16,
+    marginRight: 5,
+  },
+  infoText: {
     fontSize: 14,
-    color: "#777",
-    marginBottom: 5,
+    color: "#007AFF",
   },
   about: {
     fontSize: 14,

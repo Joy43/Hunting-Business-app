@@ -2,13 +2,14 @@ import { View, Text } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import {Color, Colors} from "../../constants/Colors"
+import { Color, Colors } from "../../constants/Colors";
+import { MaterialIcons } from "@expo/vector-icons";
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor:Colors.PRIMARY
+        tabBarActiveTintColor: Colors.PRIMARY,
       }}
     >
       <Tabs.Screen
@@ -16,7 +17,7 @@ export default function TabLayout() {
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="home" size={24} color={color} />
+            <Ionicons name="home" size={26} color={color} />
           ),
         }}
       />
@@ -25,7 +26,7 @@ export default function TabLayout() {
         options={{
           tabBarLabel: "Explore",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="search-circle" size={24} color={color} />
+            <Ionicons name="search-circle" size={26} color={color} />
           ),
         }}
       />
@@ -34,7 +35,16 @@ export default function TabLayout() {
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="people-circle" size={24} color={color} />
+            <Ionicons name="people-circle" size={26} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="aboutus"
+        options={{
+          tabBarLabel: "About Developer",
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="developer-mode" size={26} color={color} />
           ),
         }}
       />

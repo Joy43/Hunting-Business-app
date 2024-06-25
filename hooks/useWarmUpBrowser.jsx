@@ -1,11 +1,14 @@
-import React from "react";
+import { useEffect } from "react";
+import { Platform } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 
 export const useWarmUpBrowser = () => {
-  React.useEffect(() => {
-    void WebBrowser.warmUpAsync();
-    return () => {
-      void WebBrowser.coolDownAsync();
-    };
+  useEffect(() => {
+    if (Platform.OS !== "web") {
+      void WebBrowser.warmUpAsync();
+      return () => {
+        void WebBrowser.coolDownAsync();
+      };
+    }
   }, []);
 };

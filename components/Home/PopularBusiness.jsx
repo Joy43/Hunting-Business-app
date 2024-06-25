@@ -1,4 +1,4 @@
-import { Image, Text, View, StyleSheet } from "react-native";
+import { Image, Text, View, StyleSheet, Button } from "react-native";
 import React from "react";
 
 export default function PopularBusiness({ business }) {
@@ -11,19 +11,22 @@ export default function PopularBusiness({ business }) {
           {business.about}
         </Text>
       </View>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: 4,
-          alignItems: "center",
-        }}
-      >
-        <Image
-          source={require("../../assets/images/star.png")}
-          style={{ width: 14, height: 14 }}
-        />
-        <Text>4.4</Text>
+      {/* -------------rating and category----- */}
+      <View className="flex justify-around">
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 4,
+            alignItems: "center",
+          }}
+        >
+          <Image
+            source={require("../../assets/images/star.png")}
+            style={{ width: 14, height: 14 }}
+          />
+          <Text>4.4</Text>
+        </View>
       </View>
     </View>
   );

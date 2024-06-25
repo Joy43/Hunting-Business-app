@@ -1,125 +1,108 @@
-import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
-
-import { Colors } from "@/constants/Colors";
 import React from "react";
-import { Link, useNavigation } from "expo-router";
-// import * as WebBrowser from "expo-web-browser";
-
-// import { useOAuth } from "@clerk/clerk-expo";
-// import { useWarmUpBrowser } from "./../hooks/useWarmUpBrowser";
-
-// -----------creark--------------
-
-// WebBrowser.maybeCompleteAuthSession();
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import { Colors } from "@/constants/Colors";
+import { Link } from "expo-router";
 
 export default function LoginScreen() {
-  const navigation = useNavigation();
-  const handlePress = () => {
-    navigation.navigate("Root");
-  };
-  // ----------creark-----------
-
-  // useWarmUpBrowser();
-
-  // const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
-
-  // const onPress = React.useCallback(async () => {
-  //   try {
-  //     const { createdSessionId, signIn, signUp, setActive } =
-  //       await startOAuthFlow();
-
-  //     if (createdSessionId) {
-  //       setActive({ session: createdSessionId });
-  //     } else {
-
-  //     }
-  //   } catch (err) {
-  //     console.error("OAuth error", err);
-  //   }
-  // }, []);
-
   return (
-    <View>
-      <View
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginTop: 100,
-        }}
-      >
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.imageContainer}>
         <Image
           source={require("./../assets/images/into.gif")}
-          style={{
-            width: 220,
-            height: 450,
-            borderRadius: 20,
-            borderLeftWidth: 6,
-            shadowOpacity: 0.36,
-            shadowRadius: 6.68,
-            elevation: 11,
-            borderColor: "back",
-          }}
-        ></Image>
+          style={styles.image}
+        />
       </View>
-      {/* ----------text --- */}
-      <View>
-        <Text
-          style={{
-            textAlign: "center",
-            color: "",
-            fontSize: 30,
-            fontFamily: "outfit-bold",
-          }}
-        >
-          Welcome to our comunity{" "}
-          <Text
-            style={{
-              color: Colors.PRIMARY,
-            }}
-          >
-            Business Hunting
-          </Text>
+      <View style={styles.buttonContainer}>
+        <Link href="/sign-in" style={styles.button}>
+          <Text style={styles.buttonText}>Sign In</Text>
+        </Link>
+        <Link href="/sign-up" style={styles.button}>
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </Link>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>
+          Welcome to our community{" "}
+          <Text style={{ color: Colors.PRIMARY }}>Business Hunting</Text>
         </Text>
         <Text style={styles.subtitle}>
           Find out the best amazing business and post latest business at moment
           for better way
         </Text>
-        <Link href={"/tabs"}>
-          <TouchableOpacity style={styles.button} onPress={handlePress}>
-            <Text
-              style={{
-                textAlign: "center",
-                fontSize: 30,
-                color: "white",
-                fontFamily: "outfit",
-              }}
-            >
-              {" "}
-              Let's Go Start
-            </Text>
-          </TouchableOpacity>
-        </Link>
       </View>
-    </View>
+    </ScrollView>
   );
 }
+
 const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    padding: 20,
+  },
+  imageContainer: {
+    alignItems: "center",
+    marginBottom: 30,
+  },
+  image: {
+    width: 220,
+    height: 450,
+    borderRadius: 20,
+    borderWidth: 6,
+    borderColor: "black",
+    shadowColor: "#000",
+    shadowOpacity: 0.36,
+    shadowRadius: 6.68,
+    elevation: 11,
+  },
+  textContainer: {
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  title: {
+    textAlign: "center",
+    color: "#000",
+    fontSize: 30,
+    fontFamily: "outfit-bold",
+  },
   subtitle: {
     backgroundColor: "#fff",
     padding: 20,
     marginVertical: 15,
     fontSize: 18,
     fontFamily: "outfit",
-    alignItems: "center",
+    textAlign: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
   },
   button: {
     backgroundColor: Colors.PRIMARY,
-    borderBottomColor: "#fff",
     borderRadius: 20,
-    width: "fit",
-    padding: 6,
-    borderLeftWidth: 6,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginHorizontal: 10,
+    shadowColor: "#2146C8",
     shadowOpacity: 0.36,
     shadowRadius: 6.68,
+    elevation: 11,
+    // te, // This line is removed
+  },
+  buttonText: {
+    textAlign: "center",
+    fontSize: 18,
+    color: "#2146C8",
+    fontFamily: "outfit",
   },
 });

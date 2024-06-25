@@ -1,11 +1,6 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import LoginScreen from './../../components/LoginScreen';
+import { View, Text } from "react-native";
+import React from "react";
 
 export default function profile() {
-  return (
-    <View>
-      <LoginScreen></LoginScreen>
-    </View>
-  )
+  return <View></View>;
 }

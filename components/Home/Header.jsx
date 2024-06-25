@@ -4,6 +4,8 @@ import React from "react";
 //  import { useUser } from "@clerk/clerk-expo";
 // import { SearchBar } from 'react-native-elements';
 import { FontAwesome } from "@expo/vector-icons";
+import { Link } from "expo-router";
+
 export default function Header() {
   // const { user } = useUser();
 
@@ -12,8 +14,15 @@ export default function Header() {
       style={{
         padding: 20,
         paddingTop: 40,
+        backgroundColor:'blue'
       }}
     >
+      {/* --------sign up----------- */}
+
+      {/* <Link href="/login">
+        <Text>Sign up</Text>
+      </Link> */}
+
       <View
         style={{
           display: "flex",
