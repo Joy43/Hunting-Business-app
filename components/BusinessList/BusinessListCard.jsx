@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React from "react";
 import { router } from "expo-router";
-// import Reviews from "./Reviews";
+import Reviews from "./Reviews";
 
 export default function BusinessListCard({ business }) {
   const handlePress = (url) => {
@@ -90,7 +90,7 @@ export default function BusinessListCard({ business }) {
 
         <View>
           {/* -------------- reviews--------- */}
-          {/* <Reviews business={business}></Reviews> */}
+          <Reviews business={business}></Reviews>
         </View>
       </View>
     </ScrollView>

@@ -4,7 +4,7 @@ import {
   Image,
   Text,
   StyleSheet,
-  TouchableOpacity,
+
   ScrollView,
 } from "react-native";
 import { Colors } from "@/constants/Colors";
@@ -20,10 +20,10 @@ export default function LoginScreen() {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Link href="/sign-in" style={styles.button}>
+        <Link href="/signin" style={styles.button}>
           <Text style={styles.buttonText}>Sign In</Text>
         </Link>
-        <Link href="/sign-up" style={styles.button}>
+        <Link href="/signup" style={styles.button}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </Link>
       </View>

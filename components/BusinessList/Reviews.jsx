@@ -1,81 +1,96 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
-import React from "react";
-import { Rating, AirbnbRating } from "react-native-ratings";
-import { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import React, { useState, useContext } from "react";
+import { Rating } from "react-native-ratings";
 import { Colors } from "@/constants/Colors";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../../configs/FirebaseConfig";
-import { useUser } from "@clerk/clerk-expo";
+import { AuthContext } from "./../../app/authprovider/AuthProvider"; // Adjust the path as needed
 
 export default function Reviews({ businesss }) {
   const [rating, setRating] = useState(4);
   const [Userinput, setUserinput] = useState();
-  const { user } = useUser();
+  const { user } = useContext(AuthContext);
+
   const onSubmit = async () => {
     const docRef = doc(db, "BusinessList", businesss?.id);
     await updateDoc(docRef, {
       reviews: arrayUnion({
         rating: rating,
         commit: Userinput,
-        userName: user?.fullName,
-        userName: user?.imageUrl,
-        userEmail: user?.primaryEmailAddress?.emailAddress,
+        userName: user?.displayName,
+        userImage: user?.photoURL,
+        userEmail: user?.email,
       }),
     });
   };
-  return (
-    <View style={{ paddingg: 20, backgroundColor: "#fff", padding: 20 }}>
-      <Text
-        style={{ fontFamily: "outfit-bold", textAlign: "center", fontSize: 20 }}
-      >
-        Reviews
-      </Text>
 
+  return (
+    <View style={styles.container}>
+      <Text style={styles.headerText}>Reviews</Text>
       <View>
         <Rating
           imageSize={20}
           showRating={false}
           onFinishRating={(rating) => setRating(rating)}
-          style={{ paddingVertical: 10 }}
+          style={styles.rating}
         />
         <TextInput
           numberOfLines={4}
-          style={{
-            textAlign: "center",
-            borderWidth: 1,
-            padding: 10,
-            borderRadius: 10,
-            borderBlockColor: "gray",
-            textAlignVertical: "top",
-          }}
-          onChangeText={() => onSubmit()}
+          style={styles.textInput}
+          onChangeText={(text) => setUserinput(text)}
           placeholder="Write your commit"
-        ></TextInput>
-        <TouchableOpacity
-          style={{
-            padding: 10,
-            backgroundColor: Colors.PRIMARY,
-            justifyContent: "center",
-            marginTop: 10,
-            padding: 6,
-            borderColor: "green",
-            shadowColor: "yellow",
-          }}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              fontFamily: "outfit-bold",
-              fontSize: 20,
-              color: "white",
-              padding: 2,
-              borderColor: "blue",
-            }}
-          >
-            Submit
-          </Text>
+        />
+        <TouchableOpacity style={styles.button} onPress={onSubmit}>
+          <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+    backgroundColor: "#fff",
+  },
+  headerText: {
+    fontFamily: "outfit-bold",
+    textAlign: "center",
+    fontSize: 20,
+  },
+  rating: {
+    paddingVertical: 10,
+  },
+  textInput: {
+    textAlign: "center",
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+    borderColor: "gray",
+    textAlignVertical: "top",
+  },
+  button: {
+    backgroundColor: Colors.PRIMARY,
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+
+    shadowColor: "#2146C8",
+    shadowOpacity: 0.36,
+    shadowRadius: 6.68,
+    elevation: 11,
+    // te, // This line is removed
+  },
+  buttonText: {
+    textAlign: "center",
+    fontSize: 18,
+    color: "#2146C8",
+    fontFamily: "outfit",
+  },
+});
