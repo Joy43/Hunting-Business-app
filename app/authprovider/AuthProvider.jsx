@@ -27,9 +27,19 @@ const AuthProviders = ({ children }) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  const signIn = (email, password) => {
+  const signIn = async (email, password) => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
+    return signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        setLoading(false);
+        return userCredential;
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error("Error signing in:", error);
+        throw error;
+      });
   };
 
   const googleSignIn = () => {

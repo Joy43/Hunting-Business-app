@@ -4,12 +4,14 @@ import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Color, Colors } from "../../constants/Colors";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: Colors.PRIMARY,
+        tabBarLabelStyle: { fontSize: 14 },
       }}
     >
       <Tabs.Screen
@@ -22,11 +24,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="products"
         options={{
-          tabBarLabel: "Explore",
+          tabBarLabel: "Product",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="search-circle" size={26} color={color} />
+            <Entypo name="shopping-cart" size={24} color={color} />
           ),
         }}
       />

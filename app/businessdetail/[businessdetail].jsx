@@ -5,7 +5,6 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../configs/FirebaseConfig";
 import LottieView from "lottie-react-native";
 
-
 export default function BusinessDetail() {
   const { businessid } = useLocalSearchParams();
   const [business, setBusiness] = useState(null);
@@ -23,7 +22,7 @@ export default function BusinessDetail() {
       console.log("docSnap.exists():", docSnap.exists()); // Log if the document exists
       if (docSnap.exists()) {
         console.log("docSnap.data():", docSnap.data()); // Log the document data
-        setBusiness(docSnap.data());
+        setBusiness({ id: docSnap.id, ...docSnap.data() });
       } else {
         console.log("No such document");
       }

@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  View,
-  Image,
-  Text,
-  StyleSheet,
-
-  ScrollView,
-} from "react-native";
+import { View, Image, Text, StyleSheet, ScrollView } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Link } from "expo-router";
 
@@ -32,10 +25,10 @@ export default function LoginScreen() {
           Welcome to our community{" "}
           <Text style={{ color: Colors.PRIMARY }}>Business Hunting</Text>
         </Text>
-        <Text style={styles.subtitle}>
+        {/* <Text style={styles.subtitle}>
           Find out the best amazing business and post latest business at moment
           for better way
-        </Text>
+        </Text> */}
       </View>
     </ScrollView>
   );

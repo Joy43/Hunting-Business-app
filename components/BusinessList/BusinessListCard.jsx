@@ -6,9 +6,10 @@ import {
   TouchableOpacity,
   ScrollView,
   Linking,
+  Share,
 } from "react-native";
 import React from "react";
-import { router } from "expo-router";
+
 import Reviews from "./Reviews";
 
 export default function BusinessListCard({ business }) {
@@ -25,6 +26,11 @@ export default function BusinessListCard({ business }) {
   const handleContactPress = (contact) => {
     const url = `tel:${contact}`;
     Linking.openURL(url);
+  };
+  const handleShare = (name, address, website) => {
+    Share.share({
+      message: `Check out ${name} at ${address}. For more info, visit: ${website}`,
+    });
   };
 
   return (
@@ -78,13 +84,24 @@ export default function BusinessListCard({ business }) {
               <Text style={styles.infoText}>{business.adress}</Text>
             </TouchableOpacity>
             {/* --------------rating-------- */}
-            <View style={styles.ratingContainer}>
+            {/* <View style={styles.ratingContainer}>
               <Image
                 source={require("../../assets/images/star.png")}
                 style={styles.starImage}
               />
               <Text style={styles.ratingText}>{business.rating || "4.3"}</Text>
-            </View>
+            </View> */}
+            {/* ----------share---------- */}
+            <TouchableOpacity
+              style={styles.infoContainer}
+              onPress={() => handleShare(business.adress)}
+            >
+              <Image
+                source={require("../../assets/images/share.png")}
+                style={styles.infoIcon}
+              />
+              <Text style={styles.infoText}>Share</Text>
+            </TouchableOpacity>
           </View>
         </View>
 

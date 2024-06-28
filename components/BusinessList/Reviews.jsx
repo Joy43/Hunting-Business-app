@@ -10,7 +10,7 @@ import { Rating } from "react-native-ratings";
 import { Colors } from "@/constants/Colors";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../../configs/FirebaseConfig";
-import { AuthContext } from "./../../app/authprovider/AuthProvider"; // Adjust the path as needed
+import { AuthContext } from "./../../app/authprovider/AuthProvider";
 
 export default function Reviews({ businesss }) {
   const [rating, setRating] = useState(4);
@@ -46,8 +46,12 @@ export default function Reviews({ businesss }) {
           onChangeText={(text) => setUserinput(text)}
           placeholder="Write your commit"
         />
-        <TouchableOpacity style={styles.button} onPress={onSubmit}>
-          <Text style={styles.buttonText}>Submit</Text>
+        <TouchableOpacity
+          disabled={!Userinput}
+          style={styles.button}
+          onPress={onSubmit}
+        >
+          <Text style={styles.buttonText}>SUBMIT</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -76,13 +80,15 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
   button: {
-    backgroundColor: Colors.PRIMARY,
-    borderRadius: 20,
+    backgroundColor: "blue",
+    borderRadius: 6,
+
     paddingVertical: 10,
     paddingHorizontal: 20,
 
     shadowColor: "#2146C8",
-    shadowOpacity: 0.36,
+    marginTop: 10,
+
     shadowRadius: 6.68,
     elevation: 11,
     // te, // This line is removed
@@ -90,7 +96,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     fontSize: 18,
-    color: "#2146C8",
-    fontFamily: "outfit",
+    color: "#fff",
+    fontFamily: "outfit-bold",
   },
 });

@@ -1,12 +1,13 @@
 // src/layouts/RootLayout.js
-import React, { useContext } from "react";
-import { ActivityIndicator, View } from "react-native";
+import React, { useContext, useState } from "react";
+import { ActivityIndicator, View, Button, ScrollView } from "react-native";
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
-import AuthProviders, { AuthContext } from "../app/authprovider/AuthProvider";
+import AuthProvider, { AuthContext } from "../app/authprovider/AuthProvider";
 
-import LoginScreen from "./../components/LoginScreen";
-import Signup from "./Authentication/signup";
+import Signup from "./(auth)/signup";
+
+import Signin from "./(auth)/signin";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -24,14 +25,15 @@ export default function RootLayout() {
   }
 
   return (
-    <AuthProviders>
+    <AuthProvider>
       <AppNavigator />
-    </AuthProviders>
+    </AuthProvider>
   );
 }
 
 const AppNavigator = () => {
   const { user, loading } = useContext(AuthContext);
+  const [isSignup, setIsSignup] = useState(true);
 
   if (loading) {
     return (
@@ -41,11 +43,25 @@ const AppNavigator = () => {
     );
   }
 
-  return user ? (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(tabs)" />
-    </Stack>
-  ) : (
-    <Signup />
+  if (user) {
+    return (
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+      </Stack>
+    );
+  }
+
+  return (
+    <ScrollView style={{marginBottom:10}}>
+      {isSignup ? <Signup /> : <Signin />}
+      <Button
+        title={
+          isSignup
+            ? "Already have an account? Sign in"
+            : "Don't have an account? Sign up"
+        }
+        onPress={() => setIsSignup(!isSignup)}
+      />
+    </ScrollView>
   );
 };
