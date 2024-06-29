@@ -4,202 +4,172 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Image,
-  ScrollView,
+  StyleSheet,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
-import Toast from "react-native-toast-message";
-import { AuthContext } from "./../authprovider/AuthProvider";
+import { AuthContext } from "../authprovider/AuthProvider";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
-const image_hosting_key = "66636ce87626845ca56075b8019b545b";
-const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
-
-export default function Signup() {
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+const Signup = () => {
+  const { createUser } = useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
+  const [image, setImage] = useState(null);
+  const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [image, setImage] = useState(null);
-  const [imageURL, setImageURL] = useState("");
-  const [error, setError] = useState("");
+  const navigation = useNavigation();
 
-  const handleImageUpload = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+  const image_hosting_key = "53a78c7ddf15ef0df1162ac82981d0d6";
+  const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+  const defaultphotoURL = "https://i.ibb.co/p1WYkgs/avater.jpg";
+
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
       quality: 1,
     });
 
     if (!result.canceled) {
-      const source = { uri: result.assets[0].uri };
-      setImage(source.uri);
-
-      const formData = new FormData();
-      formData.append("image", {
-        uri: source.uri,
-        type: result.assets[0].type,
-        name: result.assets[0].fileName,
-      });
-
-      axios
-        .post(image_hosting_api, formData)
-        .then((response) => {
-          setImageURL(response.data.data.url);
-          Toast.show({
-            type: "success",
-            text1: "Image Upload",
-            text2: "Image upload successful",
-          });
-        })
-        .catch((error) => {
-          console.error("Error uploading image:", error);
-          Toast.show({
-            type: "error",
-            text1: "Image Upload",
-            text2: "Failed to upload image. Please try again.",
-          });
-        });
+      setImage(result.assets[0].uri);
     }
   };
 
-  const handleSignup = async () => {
-    setError("");
+  const handleRegister = async () => {
+    let photoURL = defaultphotoURL;
+
+    if (image) {
+      const formData = new FormData();
+      formData.append("image", {
+        uri: image,
+        name: "profile.jpg",
+        type: "image/jpeg",
+      });
+
+      try {
+        const imgResponse = await axios.post(image_hosting_api, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        photoURL = imgResponse.data.data.url;
+      } catch (error) {
+        console.error(
+          "Image upload error: ",
+          error.response ? error.response.data : error.message
+        );
+        alert("Error uploading image. Default image will be used.");
+      }
+    }
+
     try {
-      const result = await createUser(email, password);
-      const loggedUser = result.user;
-      await updateUserProfile(name, imageURL);
-      const userInfo = {
-        name,
-        email,
-        photoURL: imageURL,
-      };
-      Toast.show({
-        type: "success",
-        text1: "Signup Success",
-        text2: "Account created successfully! 👋",
+      const auth = getAuth();
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      await updateProfile(user, {
+        displayName: displayName,
+        photoURL: photoURL,
       });
-    } catch (err) {
-      setError(err.message);
-      Toast.show({
-        type: "error",
-        text1: "Signup Error",
-        text2: err.message,
-      });
+
+      alert("Registration successful!");
+      navigation.navigate("Home");
+    } catch (error) {
+      console.error(
+        "Registration error: ",
+        error.response ? error.response.data : error.message
+      );
+      alert("Error during registration. Please try again.");
     }
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.topContainer}>
+    <View style={styles.container}>
+      <Text style={styles.title}>Sign up for an account</Text>
+      <TouchableOpacity onPress={pickImage}>
         <Image
-          source={require("../../assets/images/into.gif")}
+          source={
+            image
+              ? { uri: image }
+              : require("../../assets/images/placeholder.png")
+          }
           style={styles.image}
         />
-      </View>
-      <View style={styles.formContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          value={name}
-          onChangeText={setName}
-        />
-        <TouchableOpacity
-          style={styles.imageUploadButton}
-          onPress={handleImageUpload}
-        >
-          <Text style={styles.buttonText}>Upload Image</Text>
-        </TouchableOpacity>
-        {image && (
-          <Image source={{ uri: image }} style={styles.selectedImage} />
-        )}
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-        {error ? <Text style={styles.error}>{error}</Text> : null}
-        <TouchableOpacity style={styles.button} onPress={handleSignup}>
-          <Text style={styles.buttonText}>Signup</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </TouchableOpacity>
+      <TextInput
+        placeholder="Display Name"
+        style={styles.input}
+        value={displayName}
+        onChangeText={setDisplayName}
+      />
+      <TextInput
+        placeholder="Email"
+        style={styles.input}
+        keyboardType="email-address"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput
+        placeholder="Password"
+        style={styles.input}
+        secureTextEntry={!showPassword}
+        value={password}
+        onChangeText={setPassword}
+      />
+      <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+        <Text>{showPassword ? "Hide" : "Show"}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    backgroundColor: "#f9fafd",
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    margin: 10,
-    shadowRadius: 10,
-    shadowColor: "blue",
-  },
-  topContainer: {
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  formContainer: {
     flex: 1,
-    paddingHorizontal: 20,
+    padding: 20,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+    color: "#6200ee",
+  },
+  image: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    marginBottom: 20,
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
+    width: "80%",
     padding: 10,
-    marginBottom: 20,
-    borderRadius: 8,
-    backgroundColor: "#fff",
-  },
-  error: {
-    color: "red",
-    marginBottom: 20,
-    textAlign: "center",
+    marginVertical: 10,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: "#f9f9f9",
   },
   button: {
-    backgroundColor: "#1e90ff",
+    marginTop: 20,
     padding: 15,
-    borderRadius: 8,
-    alignItems: "center",
+    backgroundColor: "#6200ee",
+    borderRadius: 5,
   },
   buttonText: {
     color: "#fff",
     fontSize: 16,
-    fontWeight: "bold",
-  },
-  imageUploadButton: {
-    backgroundColor: "#1e90ff",
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 20,
-    alignItems: "center",
-  },
-  image: {
-    width: 400,
-    height: 400,
-    resizeMode: "cover",
-    marginBottom: 20,
-    borderRadius: 10,
-  },
-  selectedImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    alignSelf: "center",
-    marginBottom: 20,
   },
 });
+
+export default Signup;

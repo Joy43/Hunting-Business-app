@@ -4,7 +4,7 @@ import { AuthContext } from "../../app/authprovider/AuthProvider";
 
 export default function Intoprofile() {
   const { user, logOut } = useContext(AuthContext);
-
+  console.log(user);
   const handleLogout = () => {
     logOut()
       .then(() => {})

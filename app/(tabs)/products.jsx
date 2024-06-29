@@ -1,10 +1,12 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text } from "react-native";
+import React from "react";
+import LoginScreen from "./../../components/LoginScreen";
+import { ScrollView } from "react-native";
 
-export default function prducts() {
+export default function products() {
   return (
-    <View>
-      <Text>prducts</Text>
-    </View>
-  )
+    <ScrollView>
+      <LoginScreen></LoginScreen>
+    </ScrollView>
+  );
 }
