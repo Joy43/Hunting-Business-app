@@ -42,7 +42,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="aboutus"
+        name="developer"
         options={{
           tabBarLabel: "About Developer",
           tabBarIcon: ({ color }) => (

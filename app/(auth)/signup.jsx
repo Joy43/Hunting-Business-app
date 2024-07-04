@@ -7,11 +7,15 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import { AuthContext } from "../authprovider/AuthProvider";
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 
 const Signup = () => {
   const { createUser } = useContext(AuthContext);
@@ -20,10 +24,10 @@ const Signup = () => {
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigation = useNavigation();
 
-  const image_hosting_key = "53a78c7ddf15ef0df1162ac82981d0d6";
-  const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+  // const image_hosting_key = "9d48573c2a9818e58066067ce937065f";
+  const image_hosting_api =
+    "https://api.imgbb.com/1/upload?key=9d48573c2a9818e58066067ce937065f";
   const defaultphotoURL = "https://i.ibb.co/p1WYkgs/avater.jpg";
 
   const pickImage = async () => {
@@ -68,7 +72,11 @@ const Signup = () => {
 
     try {
       const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
       await updateProfile(user, {
@@ -76,8 +84,23 @@ const Signup = () => {
         photoURL: photoURL,
       });
 
+      console.log("Attempting to register user...");
+      console.log({ uid: user.uid, displayName, email, photoURL });
+
+      const response = await axios.post(
+        "https://server-hunting-business.vercel.app/user",
+        {
+          uid: user.uid,
+          displayName: displayName,
+          email: email,
+          password: password,
+          photoURL: photoURL,
+          isAdmin: false,
+        }
+      );
+
+      console.log("Server response:", response.data);
       alert("Registration successful!");
-      navigation.navigate("Home");
     } catch (error) {
       console.error(
         "Registration error: ",
@@ -137,6 +160,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
+    margin: 20,
   },
   title: {
     fontSize: 24,

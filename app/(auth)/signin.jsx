@@ -98,12 +98,6 @@ export default function Signin() {
       >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      <Text>
-        New Here?{" "}
-        <Text style={styles.link} onPress={() => navigation.navigate("Signup")}>
-          Create an account
-        </Text>
-      </Text>
     </View>
   );
 }

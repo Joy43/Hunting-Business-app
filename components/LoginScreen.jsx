@@ -1,7 +1,5 @@
 import React from "react";
 import { View, Image, Text, StyleSheet, ScrollView } from "react-native";
-import { Colors } from "@/constants/Colors";
-import { Link } from "expo-router";
 
 export default function LoginScreen() {
   return (
@@ -11,24 +9,6 @@ export default function LoginScreen() {
           source={require("./../assets/images/into.gif")}
           style={styles.image}
         />
-      </View>
-      <View style={styles.buttonContainer}>
-        <Link href="/signin" style={styles.button}>
-          <Text style={styles.buttonText}>Sign In</Text>
-        </Link>
-        <Link href="/signup" style={styles.button}>
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </Link>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>
-          Welcome to our community{" "}
-          <Text style={{ color: Colors.PRIMARY }}>Business Hunting</Text>
-        </Text>
-        {/* <Text style={styles.subtitle}>
-          Find out the best amazing business and post latest business at moment
-          for better way
-        </Text> */}
       </View>
     </ScrollView>
   );
@@ -47,7 +27,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   image: {
-    width: 220,
+    width: 320,
     height: 450,
     borderRadius: 20,
     borderWidth: 6,
@@ -79,23 +59,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-  },
-  button: {
-    backgroundColor: Colors.PRIMARY,
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginHorizontal: 10,
-    shadowColor: "#2146C8",
-    shadowOpacity: 0.36,
-    shadowRadius: 6.68,
-    elevation: 11,
-    // te, // This line is removed
-  },
-  buttonText: {
-    textAlign: "center",
-    fontSize: 18,
-    color: "#2146C8",
-    fontFamily: "outfit",
   },
 });

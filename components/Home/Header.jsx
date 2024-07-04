@@ -2,7 +2,7 @@ import { View, Text, TextInput, Image, StyleSheet } from "react-native";
 import React, { useContext } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { AuthContext } from "../../app/authprovider/AuthProvider";
-import defaultimg from "../../assets/images/joy.png";
+// import defaultimg from "../../assets/images/joy.png";
 
 export default function Header() {
   const { user } = useContext(AuthContext);
@@ -11,17 +11,17 @@ export default function Header() {
     <View style={styles.header}>
       <Text style={styles.welcomeText}>Welcome to</Text>
 
-      {/* Profile Section */}
+      {/* ----------- Profile Section ------------*/}
       <View style={styles.profileContainer}>
         <Image
-          source={defaultimg}
+          source={{ uri: user?.photoURL || "https://via.placeholder.com/150" }}
           style={styles.profileImage}
           resizeMode="cover"
         />
         <Text style={styles.userName}>{user.displayName}</Text>
       </View>
 
-      {/* Search Bar */}
+      {/*----------- Search Bar----------- */}
       <View style={styles.searchContainer}>
         <FontAwesome name="search" size={20} color="#888" />
         <TextInput placeholder="Search..." style={styles.searchInput} />

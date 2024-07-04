@@ -9,23 +9,30 @@ import {
   TouchableOpacity,
   Linking,
 } from "react-native";
-import Icon from 'react-native-vector-icons/FontAwesome'; // Import vector icons
+import Icon from "react-native-vector-icons/FontAwesome"; // Import vector icons
 
 // Import local images
 import background from "../../assets/images/backgroundimg.png";
 import profile from "../../assets/images/joy.png";
+import TypeWriter from "@sucho/react-native-typewriter";
 
-export default function AboutUs() {
+export default function Developer() {
   const openLink = (url) => {
-    Linking.openURL(url).catch((err) => console.error("An error occurred", err));
+    Linking.openURL(url).catch((err) =>
+      console.error("An error occurred", err)
+    );
   };
 
   const handleEmailPress = () => {
     const email = "shahsultan@gmail.com";
     const subject = "Contacting You";
     const body = "Hello, I would like to get in touch with you.";
-    const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    Linking.openURL(mailtoUrl).catch((err) => console.error("An error occurred", err));
+    const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+    Linking.openURL(mailtoUrl).catch((err) =>
+      console.error("An error occurred", err)
+    );
   };
 
   return (
@@ -33,7 +40,16 @@ export default function AboutUs() {
       <ImageBackground source={background} style={styles.backgroundImage}>
         <View style={styles.content}>
           <Image source={profile} style={styles.profileImage} />
-          <Text style={styles.name}>Shahsultan Islam Joy</Text>
+          <View style={{alignItems:'center'}}>
+            <TypeWriter
+              textArray={["Shahsultan Islam Joy"]}
+              loop
+              speed={200}
+              delay={500}
+              textStyle={styles.typeWriterText}
+              cursorStyle={styles.typeWriterCursorText}
+            />
+          </View>
           <Text style={styles.title}>Full Stack Developer</Text>
 
           <View style={styles.section}>
@@ -48,31 +64,40 @@ export default function AboutUs() {
             <Text style={styles.sectionTitle}>Education</Text>
             <Text style={styles.sectionContent}>
               B.S.C (Computer Science & Engineering) {"\n"} S.S.C in Nabarun
-              Public school
+              Public School
             </Text>
           </View>
 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Skills</Text>
             <Text style={styles.sectionContent}>
-              JavaScript, React, React Native, Node.js{"\n"}- c++, type script,
-              Flask{"\n"}- SQL, MongoDB, Firebase
+              JavaScript, React, React Native, Node.js{"\n"}C++, TypeScript,
+              Flask{"\n"}SQL, MongoDB, Firebase
             </Text>
           </View>
 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Contact</Text>
             <View style={styles.contactItem}>
-              <TouchableOpacity onPress={handleEmailPress} style={styles.contactButton}>
+              <TouchableOpacity
+                onPress={handleEmailPress}
+                style={styles.contactButton}
+              >
                 <Icon name="envelope" size={20} color="#333" />
                 <Text style={styles.contactText}>shahsultan@gmail.com</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.contactItem}>
-              <TouchableOpacity onPress={() => openLink('https://www.facebook.com')} style={styles.contactButton}>
+              <TouchableOpacity
+                onPress={() => openLink("https://www.facebook.com")}
+                style={styles.contactButton}
+              >
                 <Icon name="facebook-square" size={30} color="#3b5998" />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => openLink('https://www.youtube.com')} style={styles.contactButton}>
+              <TouchableOpacity
+                onPress={() => openLink("https://www.youtube.com")}
+                style={styles.contactButton}
+              >
                 <Icon name="youtube-square" size={30} color="#FF0000" />
               </TouchableOpacity>
             </View>
@@ -86,6 +111,7 @@ export default function AboutUs() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+    paddingVertical: 20,
   },
   backgroundImage: {
     flex: 1,
@@ -94,9 +120,14 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.9)", // Add a semi-transparent background to the content
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     borderRadius: 10,
     margin: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 3,
   },
   profileImage: {
     width: 150,
@@ -107,13 +138,19 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     borderWidth: 2,
   },
-  name: {
+  typeWriterText: {
     fontSize: 28,
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 10,
     color: "#333",
+  },
+  typeWriterCursorText: {
+    fontSize: 28,
+    fontWeight: "bold",
     textAlign: "center",
+    marginVertical: 10,
+    color: "#333",
   },
   title: {
     fontSize: 20,
