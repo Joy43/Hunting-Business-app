@@ -41,7 +41,7 @@ export default function Signin() {
         type: "success",
         text1: "User Login Successful",
       });
-      navigation.navigate("Home");
+      navigation.navigate("home");
     } catch (error) {
       Toast.show({
         type: "error",
