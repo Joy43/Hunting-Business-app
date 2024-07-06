@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, Modal, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  Modal,
+  StyleSheet,
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 export default function ProductModal({ visible, onClose, product, onSubmit }) {
@@ -26,7 +34,12 @@ export default function ProductModal({ visible, onClose, product, onSubmit }) {
   };
 
   return (
-    <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={onClose}>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={visible}
+      onRequestClose={onClose}
+    >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
@@ -34,7 +47,11 @@ export default function ProductModal({ visible, onClose, product, onSubmit }) {
           </TouchableOpacity>
           {product && (
             <View style={styles.productContainer}>
-              <Image style={styles.modalImage} source={{ uri: product.imageUrl }} resizeMode="contain" />
+              <Image
+                style={styles.modalImage}
+                source={{ uri: product.imageUrl }}
+                resizeMode="contain"
+              />
               <Text style={styles.modalTitle}>{product.name}</Text>
               <Text style={styles.modalPrice}>${product.prize}</Text>
               <Text>{product.textarea}</Text>
@@ -58,7 +75,9 @@ export default function ProductModal({ visible, onClose, product, onSubmit }) {
             placeholder="Phone Number"
             keyboardType="phone-pad"
             value={formData.phoneNumber}
-            onChangeText={(text) => setFormData({ ...formData, phoneNumber: text })}
+            onChangeText={(text) =>
+              setFormData({ ...formData, phoneNumber: text })
+            }
           />
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
             <Text style={styles.submitButtonText}>Submit</Text>

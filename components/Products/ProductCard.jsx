@@ -46,11 +46,7 @@ export default function ProductCard({ productData }) {
   };
 
   const renderItem = ({ item: product }) => (
-    <TouchableOpacity
-      key={product._id}
-      style={styles.card}
-      onPress={() => handleAddToCart(product)}
-    >
+    <View style={styles.card}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
@@ -73,17 +69,24 @@ export default function ProductCard({ productData }) {
         </View>
         <View style={styles.footer}>
           <Text style={styles.price}>${product.prize}</Text>
+          {/* -------------add to cart-------------- */}
           <TouchableOpacity onPress={() => handleAddToCart(product)}>
             <LinearGradient
               colors={["#4c669f", "#3b5998", "#192f6a"]}
               style={styles.addToCartButton}
             >
-              <Text style={styles.addToCartText}>Add to Cart</Text>
+              <Text
+                style={styles.addToCartText}
+                onPress={() => handleAddToCart(product)}
+                key={product._id}
+              >
+                Add to Cart
+              </Text>
             </LinearGradient>
           </TouchableOpacity>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 
   return (
@@ -93,7 +96,7 @@ export default function ProductCard({ productData }) {
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
         horizontal
-        showsHorizontalScrollIndicator={false}
+        showsHorizontalScrollIndicator={true}
         contentContainerStyle={styles.list}
       />
       <ProductModal
