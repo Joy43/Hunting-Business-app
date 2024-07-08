@@ -95,7 +95,6 @@ const Signup = () => {
           email: email,
           password: password,
           photoURL: photoURL,
-          isAdmin: false,
         }
       );
 

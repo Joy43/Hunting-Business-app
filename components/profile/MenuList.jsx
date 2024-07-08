@@ -19,7 +19,7 @@ export default function MenuList() {
     },
     {
       id: 2,
-      name: "Cart Product",
+      name: "Order List",
       Icon: require("../../assets/images/add.png"),
       path: "/Business/orderCart",
     },
@@ -27,6 +27,12 @@ export default function MenuList() {
       id: 3,
       name: "Share App",
       Icon: require("../../assets/images/share.png"),
+    },
+    {
+      id: 4,
+      name: "User Manage",
+      Icon: require("../../assets/images/share.png"),
+      path: "/Business/Usermange",
     },
   ];
   const router = useRouter();

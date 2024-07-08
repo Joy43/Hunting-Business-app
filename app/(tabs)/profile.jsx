@@ -10,22 +10,31 @@ import Intoprofile from "../../components/profile/intoprofile";
 import MenuList from "../../components/profile/MenuList";
 
 export default function Profile() {
-  const [adminUser, setAdminUser] = useState(null);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("https://server-hunting-business.vercel.app/user")
-      .then((res) => res.json())
-      .then((data) => {
-        const admin = data.find((user) => user.isAdmin === true);
-        setAdminUser(admin);
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          "https://server-hunting-business.vercel.app/user"
+        );
+        const data = await response.json();
+        setUsers(data);
+        setLoading(false); // Set loading to false once data is fetched
+        console.log("Fetched user data:", data);
+      } catch (error) {
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-        setLoading(false);
-      });
+        setError("Error fetching data");
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchUserData();
   }, []);
+
+  const hasRole = users.some((user) => user.role);
 
   if (loading) {
     return (
@@ -36,15 +45,20 @@ export default function Profile() {
     );
   }
 
+  if (error) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    );
+  }
+
   return (
     <ScrollView>
-      <View
-        style={{ justifyContent: "center", alignItems: "center", margin: 10 }}
-      >
+      <View style={styles.profileContainer}>
         <Intoprofile />
       </View>
-      {/* ---------Render MenuList only if adminUser exists and isAdmin is true ---------------*/}
-      {adminUser && adminUser.isAdmin && <MenuList />}
+      {hasRole ? <MenuList /> : <Text>No Admin available</Text>}
     </ScrollView>
   );
 }
@@ -54,5 +68,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  errorText: {
+    color: "red",
+    fontSize: 16,
+    textAlign: "center",
+  },
+  profileContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 10,
   },
 });
