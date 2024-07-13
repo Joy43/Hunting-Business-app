@@ -13,7 +13,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 export default function UserManage() {
   const [usersData, setUsersData] = useState([]);
 
-  useEffect(() => {
+  const fetchUsers = () => {
     fetch("https://server-hunting-business.vercel.app/user")
       .then((res) => res.json())
       .then((data) => setUsersData(data))
@@ -21,6 +21,10 @@ export default function UserManage() {
         console.error("Error fetching users:", error);
         Alert.alert("Error", "Failed to fetch users. Please try again later.");
       });
+  };
+
+  useEffect(() => {
+    fetchUsers();
   }, []);
 
   const handleMakeAdmin = (user) => {
@@ -29,8 +33,42 @@ export default function UserManage() {
   };
 
   const handleDeleteUser = (user) => {
-    console.log("Deleting user:", user);
-    // Example: Delete user via API call
+    Alert.alert(
+      "Confirm Delete",
+      `Are you sure you want to delete ${user.displayName}?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: () => {
+            fetch(
+              `https://server-hunting-business.vercel.app/user/${user._id}`,
+              {
+                method: "DELETE",
+              }
+            )
+              .then((res) => {
+                if (res.status === 200) {
+                  Alert.alert("Success", "User deleted successfully");
+                  fetchUsers(); // Refresh the user list after deletion
+                } else {
+                  Alert.alert("Error", "Failed to delete user");
+                }
+              })
+              .catch((error) => {
+                console.error("Error deleting user:", error);
+                Alert.alert(
+                  "Error",
+                  "Failed to delete user. Please try again later."
+                );
+              });
+          },
+        },
+      ]
+    );
   };
 
   return (

@@ -1,16 +1,11 @@
 import React, { useContext, useState } from "react";
-import {
-  ActivityIndicator,
-  View,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import AuthProvider, { AuthContext } from "../app/authprovider/AuthProvider";
 import Signup from "./(auth)/signup";
 import Signin from "./(auth)/signin";
+import SplashScreen from "./SplashScreen";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -20,11 +15,7 @@ export default function RootLayout() {
   });
 
   if (!fontsLoaded) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
+    return <SplashScreen />;
   }
 
   return (
@@ -39,11 +30,7 @@ const AppNavigator = () => {
   const [isSignup, setIsSignup] = useState(true);
 
   if (loading) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
+    return <SplashScreen />;
   }
 
   if (user) {

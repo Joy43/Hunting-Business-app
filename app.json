@@ -2,18 +2,19 @@
   "expo": {
     "name": "hunting-business",
     "slug": "hunting-business",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/splash.gif",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ssjoy43.huntingbusiness"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +28,7 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
+      "output": "server",
       "favicon": "./assets/images/icon.png"
     },
     "plugins": [
@@ -50,6 +51,12 @@
       "eas": {
         "projectId": "7fc2934a-3f64-4757-b061-40ed9e5e867f"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/7fc2934a-3f64-4757-b061-40ed9e5e867f"
     }
   }
 }
