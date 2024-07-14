@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Image, ScrollView, TouchableOpacity, StyleSheet, Dimensions, Animated, Easing } from 'react-native';
+import { View, Image, TouchableOpacity, StyleSheet, Dimensions, Animated, Easing } from 'react-native';
 
-const Carousel8 = () => {
+const CustomSwiper = () => {
     const [currentSlider, setCurrentSlider] = useState(0);
     const { width: windowWidth } = Dimensions.get('window');
     const sliders = [
@@ -21,7 +21,7 @@ const Carousel8 = () => {
     const animateToNextSlider = () => {
         Animated.timing(scrollX, {
             toValue: (currentSlider + 1) * windowWidth,
-            duration: 600, // Duration of the transition
+            duration: 600,
             easing: Easing.ease,
             useNativeDriver: true
         }).start(() => {
@@ -87,31 +87,43 @@ const Carousel8 = () => {
 
 const styles = StyleSheet.create({
     carouselContainer: {
-        height: 500, // Adjust based on your needs
+        height: 400, // Adjust height based on image size
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 20
+        margin: 20,
+        paddingLeft: 10,
+        width: 400, // Fixed width for images
     },
     dotsContainer: {
         position: 'absolute',
-        bottom: 10,
+        bottom: 20,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     dot: {
-        width: 10,
-        height: 10,
-        borderRadius: 5,
+        width: 12,
+        height: 12,
+        borderRadius: 6,
         backgroundColor: 'white',
-        margin: 5,
+        margin: 4,
+        opacity: 0.7,
     },
     activeDot: {
-        width: 20,
-        backgroundColor: 'blue',
+        width: 18,
+        height: 18,
+        backgroundColor: '#3498db',
+        opacity: 1,
     },
     imageWrapper: {
-        height: '100%',
+        height: 300, // Fixed height for images
         overflow: 'hidden',
+        borderRadius: 15,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 5,
     },
     image: {
         height: '100%',
@@ -120,4 +132,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Carousel8;
+export default CustomSwiper;
